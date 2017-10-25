@@ -53,7 +53,7 @@ public class TotalApplication extends Application {
     }
 
     private String getLogTag() {
-        return BuildConfig.BUILD_TYPE;
+        return BuildConfig.LOG_TAG;
     }
 
     public static Context getInstance() {

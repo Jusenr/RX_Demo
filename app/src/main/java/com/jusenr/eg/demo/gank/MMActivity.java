@@ -1,9 +1,16 @@
 package com.jusenr.eg.demo.gank;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -62,6 +69,21 @@ public class MMActivity extends BaseActivity {
         mRefreshLayout.setRefreshing(false);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                search();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void initDatas(int page) {
         subscriptions.add(RetrofitManager.getGankApi()
@@ -123,9 +145,25 @@ public class MMActivity extends BaseActivity {
         public void onRefresh() {
             mPage++;
             initDatas(mPage);
-            if (mPage > 55) {
-                mPage = 1;
-            }
         }
     };
+
+    private void search() {
+        final EditText editText = new EditText(this);
+        editText.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
+        AlertDialog.Builder b = new AlertDialog.Builder(this)
+                .setTitle("Input page number")
+                .setIcon(android.R.drawable.ic_search_category_default)
+                .setView(editText)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String page = editText.getText().toString().trim();
+                        initDatas(TextUtils.isEmpty(page) ? 1 : Integer.parseInt(page));
+                    }
+                });
+
+        b.create().show();
+    }
+
 }

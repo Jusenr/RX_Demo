@@ -3,6 +3,7 @@ package com.jusenr.eg.demo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -120,5 +121,13 @@ public class MainActivity extends BaseActivity {
                 startActivity(new Intent(this, MMActivity.class));
                 break;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            return exit(2000);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

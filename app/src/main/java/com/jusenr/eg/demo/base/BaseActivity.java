@@ -39,6 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
 
     protected boolean isResume;
     protected LoadingView mLoadingView;
+    private ActivityManager mActivityManager;
 
 
     @Override
@@ -54,11 +55,12 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
 
         mActivity = this;
         mApplication = (TotalApplication) getApplication();
+        mActivityManager = mApplication.getActivityManager();
+        mActivityManager.addActivity(this);
         mBundle = getIntent().getExtras() != null ? getIntent().getExtras() : new Bundle();
         unbinder = ButterKnife.bind(this);
         mLoadingView = new LoadingView(this, getLoadingMessage());
         subscriptions = new CompositeSubscription();
-
         if (useEventBus()) {
             EventBusUtils.register(this);
         }
@@ -76,6 +78,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
     @Override
     protected void onResume() {
         super.onResume();
+        mActivityManager.setCurrentActivity(this);
         MobclickAgent.onResume(this);
         MobclickAgent.onPageStart(getLocalClassName());
         isResume = true;
@@ -84,6 +87,9 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
     @Override
     protected void onPause() {
         super.onPause();
+        if (mActivityManager.getCurrentActivity() == this) {
+            mActivityManager.setCurrentActivity(null);
+        }
         MobclickAgent.onPause(this);
         MobclickAgent.onPageEnd(getLocalClassName());
         isResume = false;
@@ -99,6 +105,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mActivityManager.removeActivity(this);
         unbinder.unbind();
         if (useEventBus())
             EventBusUtils.unregister(this);
