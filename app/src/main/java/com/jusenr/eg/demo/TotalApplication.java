@@ -2,6 +2,7 @@ package com.jusenr.eg.demo;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.jusenr.eg.demo.base.ActivityManager;
@@ -29,7 +30,7 @@ public class TotalApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
-
+        MultiDex.install(getApplicationContext());
         BaseApi.init();
 
         //AndroidTools initialization

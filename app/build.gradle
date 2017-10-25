@@ -133,6 +133,7 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.jakewharton:butterknife:8.5.1'
     compile 'com.github.d-max:spots-dialog:0.4@aar'
+    compile 'com.jimi_wu:PTLRecyclerView:1.1.1'
 
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'

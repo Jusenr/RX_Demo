@@ -126,7 +126,6 @@ public class MMActivity extends BaseActivity {
         mAdapter = new MMListAdapter(null);
         mAdapter.setOnRecyclerViewItemClickListener(mItemtClickListener);
         mBrvMmList.setAdapter(mAdapter);
-
         mRefreshLayout.setOnRefreshListener(mRefreshListener);
     }
 
