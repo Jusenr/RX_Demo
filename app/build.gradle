@@ -1,0 +1,156 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
+    defaultConfig {
+        applicationId "com.jusenr.eg.demo"
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode rootProject.ext.VERSIONCODE as int
+        versionName rootProject.getVersionName()
+        manifestPlaceholders rootProject.ext.MANIFESTPLACEHOLDERS
+        //语言环境和logcat日志TAG设置
+        buildConfigField "String", "LOG_TAG", "\"${rootProject.ext.APP_LOG_TAG}\""
+        //默认线上环境配置
+        buildConfigField "boolean", "IS_TEST", "false"
+        buildConfigField "int", "HOST_NOW", "1"
+        multiDexEnabled true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        release {
+            storeFile file("$rootDir/keystore.jks")
+            storePassword "github123"
+            keyAlias "githubapp"
+            keyPassword "github123"
+        }
+    }
+    buildTypes {
+        release {
+            // 显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            // 显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
+        }
+    }
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java']
+            jniLibs.srcDirs = ['libs']
+            assets.srcDirs = ['src/main/assets']
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
+    //产品渠道配置
+    productFlavors {
+        innerTest {
+            buildConfigField "boolean", "IS_TEST", "true"
+            buildConfigField "int", "HOST_NOW", "2"
+            versionName = "T" + rootProject.getVersionName()
+        }
+
+        dev {
+            buildConfigField "boolean", "IS_TEST", "true"
+            buildConfigField "int", "HOST_NOW", "3"
+            versionName = "D" + rootProject.getVersionName()
+        }
+
+        online {
+            versionName = "V" + rootProject.getVersionName()
+        }
+
+        wandoujia { versionName = "V" + defaultConfig.versionName }
+        xiaomi { versionName = "V" + defaultConfig.versionName }
+        huawei { versionName = "V" + defaultConfig.versionName }
+
+        productFlavors.all { flavor ->
+            flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+        }
+    }
+
+    //Apk包名自定义
+    applicationVariants.all {
+        variant ->
+            def apkFileName = rootProject.getVersionName()
+            def time = releaseTime("yyyyMMdd")
+            variant.outputs.each {
+                output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        def fileName = outputFile.name.replace(".apk", "-${apkFileName}-${time}.apk")
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+            }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support:design:26.+'
+    compile 'com.android.support:recyclerview-v7:26.+'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+    compile 'com.squareup.okio:okio:1.12.0'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.2.3'
+
+    compile 'com.facebook.fresco:fresco:1.2.0'
+    compile 'com.facebook.fresco:imagepipeline-okhttp3:1.2.0'
+
+    compile 'com.alibaba:fastjson:1.2.31'
+    compile 'com.google.code.gson:gson:2.4'
+    compile 'com.jusenr.android.library:androidtools:1.3.8'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v1.8.5'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.jakewharton:butterknife:8.5.1'
+    compile 'com.github.d-max:spots-dialog:0.4@aar'
+
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    compile 'com.umeng.analytics:analytics:latest.integration'
+}
+
+//编译结束后删除unaligned包
+android.applicationVariants.all { variant ->
+    variant.assemble.doLast {
+        variant.outputs.each { output ->
+            println "aligned " + output.outputFile
+            println "unaligned " + output.packageApplication.outputFile
+            File file = output.packageApplication.outputFile
+            if (variant.buildType.zipAlignEnabled && file.getName().contains("unaligned")) {
+                println "deleting " + file.getName()
+                file.delete()
+            }
+        }
+    }
+}

@@ -1,0 +1,55 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.3'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+//获取版本号
+def getVersionName() {
+    int num = rootProject.ext.VERSION_NUM
+    if (num > 0) {
+        return String.format("%s.%d", rootProject.ext.VERSIONNAME, rootProject.ext.VERSION_NUM)
+    } else {
+        return rootProject.ext.VERSIONNAME
+    }
+}
+
+//获取当前时间
+def releaseTime(def format) {
+    return new Date().format(format)
+}
+
+//git提交次数
+int gitVersionCode() {
+    def count = "git rev-list HEAD --count".execute().text.trim()
+    return count.isInteger() ? count.toInteger() : 0
+}
+
+ext {
+    APP_LOG_TAG = "RX_demo"//app打印日志的tag
+
+    VERSIONNAME = "1.0.0"
+    VERSIONCODE = 1
+    VERSION_NUM = 0 //内部测试使用的小版本号
+
+    MANIFESTPLACEHOLDERS = [UMENG_APPKEY_VALUE: "59f03fd8b27b0a282f000013"]
+}
