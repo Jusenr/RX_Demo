@@ -20,7 +20,7 @@ import java.util.List;
  * Time       : 10:40
  * Project    ：RX_Demo.
  */
-public class MMListAdapter extends BaseQuickAdapter<MaterialBenefitsModel.ResultsBean> {
+public class MMListAdapter extends BaseQuickAdapter<MaterialBenefitsModel.ResultsBean, BaseViewHolder> {
 
     public MMListAdapter(List<MaterialBenefitsModel.ResultsBean> data) {
         super(R.layout.layout_item_mm, data);

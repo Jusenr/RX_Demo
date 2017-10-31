@@ -62,25 +62,25 @@ android {
 
     //产品渠道配置
     productFlavors {
-        innerTest {
-            buildConfigField "boolean", "IS_TEST", "true"
-            buildConfigField "int", "HOST_NOW", "2"
-            versionName = "T" + rootProject.getVersionName()
-        }
-
-        dev {
-            buildConfigField "boolean", "IS_TEST", "true"
-            buildConfigField "int", "HOST_NOW", "3"
-            versionName = "D" + rootProject.getVersionName()
-        }
+//        innerTest {
+//            buildConfigField "boolean", "IS_TEST", "true"
+//            buildConfigField "int", "HOST_NOW", "2"
+//            versionName = "T" + rootProject.getVersionName()
+//        }
+//
+//        dev {
+//            buildConfigField "boolean", "IS_TEST", "true"
+//            buildConfigField "int", "HOST_NOW", "3"
+//            versionName = "D" + rootProject.getVersionName()
+//        }
 
         online {
             versionName = "V" + rootProject.getVersionName()
         }
 
-        wandoujia { versionName = "V" + defaultConfig.versionName }
-        xiaomi { versionName = "V" + defaultConfig.versionName }
-        huawei { versionName = "V" + defaultConfig.versionName }
+//        wandoujia { versionName = "V" + defaultConfig.versionName }
+//        xiaomi { versionName = "V" + defaultConfig.versionName }
+//        huawei { versionName = "V" + defaultConfig.versionName }
 
         productFlavors.all { flavor ->
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
@@ -112,6 +112,7 @@ dependencies {
     compile 'com.android.support:design:26.+'
     compile 'com.android.support:recyclerview-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:multidex:1.0.1'
 
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
@@ -129,13 +130,13 @@ dependencies {
     compile 'com.alibaba:fastjson:1.2.31'
     compile 'com.google.code.gson:gson:2.4'
     compile 'com.jusenr.android.library:androidtools:1.3.8'
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v1.8.5'
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'com.jakewharton:butterknife:8.5.1'
+
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.33'
     compile 'com.github.d-max:spots-dialog:0.4@aar'
-    compile 'com.jimi_wu:PTLRecyclerView:1.1.1'
 
     testCompile 'junit:junit:4.12'
+
+    compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
     compile 'com.umeng.analytics:analytics:latest.integration'

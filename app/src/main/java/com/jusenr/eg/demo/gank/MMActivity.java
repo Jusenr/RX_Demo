@@ -87,7 +87,7 @@ public class MMActivity extends BaseActivity {
 
     private void initDatas(int page) {
         subscriptions.add(RetrofitManager.getGankApi()
-                .materialBenefits(GankApi.TYPE_MATERIALBENEFITS, 20, page)
+                .materialBenefits(GankApi.TYPE_MATERIALBENEFITS, 10, page)
                 .compose(RxRetrofitComposer.<JSONObject>applySchedulers())
                 .doOnSubscribe(new Action0() {
                     @Override
@@ -108,7 +108,7 @@ public class MMActivity extends BaseActivity {
                         if (model != null) {
                             List<MaterialBenefitsModel.ResultsBean> results = model.getResults();
                             if (!ListUtils.isEmpty(results)) {
-                                mAdapter.setNewData(results);
+                                mAdapter.addData(results);
                             }
                             return;
                         }
@@ -124,14 +124,15 @@ public class MMActivity extends BaseActivity {
 
     private void initViews() {
         mAdapter = new MMListAdapter(null);
-        mAdapter.setOnRecyclerViewItemClickListener(mItemtClickListener);
+        mAdapter.setOnItemClickListener(mItemtClickListener);
+        mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);
         mBrvMmList.setAdapter(mAdapter);
         mRefreshLayout.setOnRefreshListener(mRefreshListener);
     }
 
-    private BaseQuickAdapter.OnRecyclerViewItemClickListener mItemtClickListener = new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+    private BaseQuickAdapter.OnItemClickListener mItemtClickListener = new BaseQuickAdapter.OnItemClickListener() {
         @Override
-        public void onItemClick(View view, int position) {
+        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
             MaterialBenefitsModel.ResultsBean resultsBean = mAdapter.getItem(position);
             if (resultsBean != null) {
                 ToastUtils.show(mActivity, resultsBean.getDesc());
