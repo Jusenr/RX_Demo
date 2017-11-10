@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -24,8 +25,6 @@ import com.jusenr.eg.demo.retrofit.RxRetrofitComposer;
 import com.jusenr.eg.demo.retrofit.api.GankApi;
 import com.jusenr.eg.demo.retrofit.subscriber.Subscriber0;
 import com.jusenr.eg.demo.widgets.recyclerView.BaseRecyclerView;
-import com.jusenr.toolslibrary.utils.ListUtils;
-import com.jusenr.toolslibrary.utils.ToastUtils;
 
 import java.util.List;
 
@@ -107,7 +106,7 @@ public class MMActivity extends BaseActivity {
                         MaterialBenefitsModel model = JSON.toJavaObject(object, MaterialBenefitsModel.class);
                         if (model != null) {
                             List<MaterialBenefitsModel.ResultsBean> results = model.getResults();
-                            if (!ListUtils.isEmpty(results)) {
+                            if (results != null) {
                                 mAdapter.addData(results);
                             }
                             return;
@@ -117,7 +116,8 @@ public class MMActivity extends BaseActivity {
 
                     @Override
                     public void onError(int code, String msg) {
-                        ToastUtils.show(mActivity, msg);
+//                        ToastUtils.show(mActivity, msg);
+                        Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
                     }
                 }));
     }
@@ -135,7 +135,8 @@ public class MMActivity extends BaseActivity {
         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
             MaterialBenefitsModel.ResultsBean resultsBean = mAdapter.getItem(position);
             if (resultsBean != null) {
-                ToastUtils.show(mActivity, resultsBean.getDesc());
+//                ToastUtils.show(mActivity, resultsBean.getDesc());
+                Toast.makeText(mActivity, resultsBean.getDesc(), Toast.LENGTH_SHORT).show();
             }
         }
     };

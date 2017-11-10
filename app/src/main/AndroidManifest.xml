@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
           package="com.jusenr.eg.demo">
-
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -15,10 +13,9 @@
         android:name=".TotalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/cur_app_name"
+        android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        tools:replace="android:label">
+        android:theme="@style/AppTheme">
 
         <meta-data
             android:name="UMENG_APPKEY"
@@ -29,6 +26,7 @@
 
         <activity
             android:name=".MainActivity"
+            android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -46,6 +44,11 @@
                     android:scheme="rx_demo"/>
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.jusenr.toolslibrary.log.PTLogActivity"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".gank.MMActivity"
             android:screenOrientation="portrait"/>

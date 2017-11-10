@@ -4,8 +4,6 @@ import android.content.Context;
 
 import com.jusenr.eg.demo.okhttp.interceptor.CacheStrategyInterceptor;
 import com.jusenr.eg.demo.okhttp.interceptor.HeaderInfoInterceptor;
-import com.jusenr.toolslibrary.log.logger.Logger;
-import com.jusenr.toolslibrary.utils.AppUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -40,7 +38,7 @@ public class MyOkHttpClient {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(String message) {
-                Logger.d(message);
+//                Logger.d(message);
             }
         });
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -53,7 +51,7 @@ public class MyOkHttpClient {
 //
 //            }
 //        }));
-        builder.addInterceptor(new HeaderInfoInterceptor(AppUtils.getVersionName(mContext)));
+        builder.addInterceptor(new HeaderInfoInterceptor(""/*AppUtils.getVersionName(mContext)*/));
 
         builder.cache(provideOkHttpCache());
 

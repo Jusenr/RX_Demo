@@ -9,7 +9,6 @@ import com.jusenr.eg.demo.base.ActivityManager;
 import com.jusenr.eg.demo.okhttp.MyOkHttpClient;
 import com.jusenr.eg.demo.retrofit.api.BaseApi;
 import com.jusenr.eg.demo.widgets.fresco.ImagePipelineFactory;
-import com.jusenr.toolslibrary.AndroidTools;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -34,7 +33,7 @@ public class TotalApplication extends Application {
         BaseApi.init();
 
         //AndroidTools initialization
-        AndroidTools.init(getApplicationContext(), getLogTag());
+//        AndroidTools.init(getApplicationContext(), getLogTag());
 
         //OkHttpClient initialization
         MyOkHttpClient.init(getApplicationContext());
