@@ -2,6 +2,7 @@ package com.jusenr.eg.demo.okhttp.interceptor;
 
 
 import com.jusenr.eg.demo.retrofit.api.BaseApi;
+import com.jusenr.toolslibrary.log.logger.Logger;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -47,7 +48,7 @@ public class HeaderInfoInterceptor implements Interceptor {
                 .append(tookMs)
                 .append("ms)");
 
-//        Logger.i(stringBuffer.toString());
+        Logger.i(stringBuffer.toString());
 
         return response;
     }

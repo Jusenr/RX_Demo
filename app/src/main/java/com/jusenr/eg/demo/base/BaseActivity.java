@@ -7,9 +7,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.jusenr.eg.demo.R;
 import com.jusenr.eg.demo.TotalApplication;
 import com.jusenr.eg.demo.base.loading.LoadView;
 import com.jusenr.eg.demo.base.loading.LoadingView;
+import com.jusenr.toolslibrary.utils.EventBusUtils;
+import com.jusenr.toolslibrary.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
@@ -59,7 +62,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
         mLoadingView = new LoadingView(this, getLoadingMessage());
         subscriptions = new CompositeSubscription();
         if (useEventBus()) {
-//            EventBusUtils.register(this);
+            EventBusUtils.register(this);
         }
         onViewCreated(savedInstanceState);
     }
@@ -104,8 +107,8 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
         super.onDestroy();
         mActivityManager.removeActivity(this);
         unbinder.unbind();
-//        if (useEventBus())
-//            EventBusUtils.unregister(this);
+        if (useEventBus())
+            EventBusUtils.unregister(this);
     }
 
     @Override
@@ -138,7 +141,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
      */
     protected boolean exit(long exit) {
         if (System.currentTimeMillis() - exitTime > exit) {
-//            ToastUtils.show(this, getString(R.string.exit_again));
+            ToastUtils.show(this, getString(R.string.exit_again));
             exitTime = System.currentTimeMillis();
         } else {
             mApplication.getActivityManager().finishAll();

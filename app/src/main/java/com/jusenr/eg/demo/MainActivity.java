@@ -7,7 +7,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jusenr.eg.demo.base.BaseActivity;
@@ -18,6 +17,7 @@ import com.jusenr.eg.demo.retrofit.RxRetrofitComposer;
 import com.jusenr.eg.demo.retrofit.model.Model1;
 import com.jusenr.eg.demo.retrofit.subscriber.ApiSubscriber1;
 import com.jusenr.eg.demo.retrofit.subscriber.ApiSubscriber2;
+import com.jusenr.toolslibrary.utils.ToastUtils;
 
 import java.util.HashMap;
 
@@ -59,8 +59,7 @@ public class MainActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
-//                        ToastUtils.show(mActivity, e.getMessage());
-                        Toast.makeText(mActivity, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(mActivity, e.getMessage());
                     }
 
                     @Override
@@ -81,8 +80,7 @@ public class MainActivity extends BaseActivity {
 
                     @Override
                     public void onError(int code, String msg) {
-//                        ToastUtils.show(mActivity, msg);
-                        Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(mActivity, msg);
                     }
                 }));
 
@@ -109,8 +107,7 @@ public class MainActivity extends BaseActivity {
 
                     @Override
                     public void onError(int code, String msg) {
-//                        ToastUtils.show(mActivity, msg);
-                        Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(mActivity, msg);
                     }
                 }));
 

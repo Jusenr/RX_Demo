@@ -46,10 +46,6 @@
         </activity>
 
         <activity
-            android:name="com.jusenr.toolslibrary.log.PTLogActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity
             android:name=".gank.MMActivity"
             android:screenOrientation="portrait"/>
 

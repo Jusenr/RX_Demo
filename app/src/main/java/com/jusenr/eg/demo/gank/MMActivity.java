@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -25,6 +24,7 @@ import com.jusenr.eg.demo.retrofit.RxRetrofitComposer;
 import com.jusenr.eg.demo.retrofit.api.GankApi;
 import com.jusenr.eg.demo.retrofit.subscriber.Subscriber0;
 import com.jusenr.eg.demo.widgets.recyclerView.BaseRecyclerView;
+import com.jusenr.toolslibrary.utils.ToastUtils;
 
 import java.util.List;
 
@@ -116,8 +116,7 @@ public class MMActivity extends BaseActivity {
 
                     @Override
                     public void onError(int code, String msg) {
-//                        ToastUtils.show(mActivity, msg);
-                        Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(mActivity, msg);
                     }
                 }));
     }
@@ -135,8 +134,7 @@ public class MMActivity extends BaseActivity {
         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
             MaterialBenefitsModel.ResultsBean resultsBean = mAdapter.getItem(position);
             if (resultsBean != null) {
-//                ToastUtils.show(mActivity, resultsBean.getDesc());
-                Toast.makeText(mActivity, resultsBean.getDesc(), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(mActivity, resultsBean.getDesc());
             }
         }
     };

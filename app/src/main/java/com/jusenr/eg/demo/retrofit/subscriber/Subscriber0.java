@@ -1,5 +1,7 @@
 package com.jusenr.eg.demo.retrofit.subscriber;
 
+import com.jusenr.toolslibrary.log.logger.Logger;
+
 import rx.Subscriber;
 
 /**
@@ -33,7 +35,7 @@ public abstract class Subscriber0<T> extends Subscriber<T> {
     final void onResponse(boolean success, int code, String msg, T data) {
         onCompleted();
         if (success) {
-//            Logger.d("####-Data:" + data.toString());
+            Logger.d("####-Data:" + data.toString());
             onNext(msg, data);
         } else {
             onError(code, msg);
