@@ -1,7 +1,7 @@
 package com.jusenr.eg.demo.retrofit;
 
-import com.jusenr.eg.demo.retrofit.api.PassportApi;
 import com.jusenr.eg.demo.retrofit.api.GankApi;
+import com.jusenr.eg.demo.retrofit.api.PassportApi;
 
 /**
  * Created by riven_chris on 16/7/3.
@@ -27,5 +27,9 @@ public class RetrofitManager {
 
     public static GankApi getGankApi() {
         return RetrofitFactory.getGankRetrofit().create(GankApi.class);
+    }
+
+    public static GankApi getGank2Api() {
+        return RetrofitFactory.getGank2Retrofit().create(GankApi.class);
     }
 }

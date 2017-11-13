@@ -16,7 +16,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="${UMENG_APPKEY_VALUE}"/>
@@ -44,11 +43,11 @@
                     android:scheme="rx_demo"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".gank.MMActivity"
             android:screenOrientation="portrait"/>
-
+        <activity android:name=".rx2test.Rx2TestActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -29,6 +29,7 @@ import com.jusenr.toolslibrary.utils.ToastUtils;
 import java.util.List;
 
 import butterknife.BindView;
+import rx.Subscription;
 import rx.functions.Action0;
 
 public class MMActivity extends BaseActivity {
@@ -85,7 +86,7 @@ public class MMActivity extends BaseActivity {
     }
 
     private void initDatas(int page) {
-        subscriptions.add(RetrofitManager.getGankApi()
+        Subscription subscribe = RetrofitManager.getGankApi()
                 .materialBenefits(GankApi.TYPE_MATERIALBENEFITS, 10, page)
                 .compose(RxRetrofitComposer.<JSONObject>applySchedulers())
                 .doOnSubscribe(new Action0() {
@@ -118,10 +119,12 @@ public class MMActivity extends BaseActivity {
                     public void onError(int code, String msg) {
                         ToastUtils.show(mActivity, msg);
                     }
-                }));
+                });
+        subscriptions.add(subscribe);
     }
 
     private void initViews() {
+        setTitle("Gank");
         mAdapter = new MMListAdapter(null);
         mAdapter.setOnItemClickListener(mItemtClickListener);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);

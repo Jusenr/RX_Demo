@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
@@ -17,6 +18,8 @@ import com.jusenr.eg.demo.retrofit.RxRetrofitComposer;
 import com.jusenr.eg.demo.retrofit.model.Model1;
 import com.jusenr.eg.demo.retrofit.subscriber.ApiSubscriber1;
 import com.jusenr.eg.demo.retrofit.subscriber.ApiSubscriber2;
+import com.jusenr.eg.demo.rx2test.Rx2TestActivity;
+import com.jusenr.toolslibrary.utils.StringUtils;
 import com.jusenr.toolslibrary.utils.ToastUtils;
 
 import java.util.HashMap;
@@ -34,6 +37,12 @@ public class MainActivity extends BaseActivity {
     TextView mTvText;
     @BindView(R.id.btn_gank)
     Button mBtnGank;
+    @BindView(R.id.editText)
+    EditText mEditText;
+    @BindView(R.id.textView)
+    TextView mTextView;
+    @BindView(R.id.button)
+    Button mButton;
 
     @Override
     protected int getLayoutId() {
@@ -44,6 +53,7 @@ public class MainActivity extends BaseActivity {
     protected void onViewCreated(@Nullable Bundle savedInstanceState) {
         NativeLib nativeLib = new NativeLib();
         mTvText.setText(nativeLib.stringFromJNI());
+        mEditText.setFocusable(false);
 //        getDataTest();
     }
 
@@ -113,13 +123,23 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_text, R.id.btn_gank})
+    @OnClick({R.id.tv_text, R.id.btn_gank, R.id.button2, R.id.button})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_text:
                 break;
             case R.id.btn_gank:
                 startActivity(new Intent(this, MMActivity.class));
+                break;
+            case R.id.button2:
+                startActivity(new Intent(this, Rx2TestActivity.class));
+                break;
+            case R.id.button:
+                String password = mEditText.getText().toString().trim();
+                mTextView.setText(password);
+                String regex = "^[\\da-zA-Z~!@#$%^&*_+?><.]{6,18}$";
+                boolean b = StringUtils.checkRegex(password, regex);
+                ToastUtils.show(this, Boolean.toString(b));
                 break;
         }
     }

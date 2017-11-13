@@ -17,6 +17,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.disposables.CompositeDisposable;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -36,6 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
     protected Activity mActivity;
     protected Bundle mBundle;
     protected CompositeSubscription subscriptions;
+    protected CompositeDisposable disposable;
 
     protected boolean isResume;
     protected LoadingView mLoadingView;
@@ -61,6 +63,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
         unbinder = ButterKnife.bind(this);
         mLoadingView = new LoadingView(this, getLoadingMessage());
         subscriptions = new CompositeSubscription();
+        disposable = new CompositeDisposable();
         if (useEventBus()) {
             EventBusUtils.register(this);
         }
@@ -98,17 +101,17 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
     @Override
     protected void onStop() {
         super.onStop();
-        if (mLoadingView != null)
-            mLoadingView.dismiss();
+        if (mLoadingView != null) mLoadingView.dismiss();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mActivityManager.removeActivity(this);
-        unbinder.unbind();
-        if (useEventBus())
-            EventBusUtils.unregister(this);
+        if (mActivityManager != null) mActivityManager.removeActivity(this);
+        if (unbinder != null) unbinder.unbind();
+        if (subscriptions != null) subscriptions.clear();
+        if (disposable != null) disposable.clear();
+        if (useEventBus()) EventBusUtils.unregister(this);
     }
 
     @Override

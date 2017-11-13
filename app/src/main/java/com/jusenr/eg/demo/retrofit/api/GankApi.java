@@ -62,4 +62,12 @@ public interface GankApi {
                                             @Path("number") int number,
                                             @Path("page") int page);
 
+
+    /**
+     * Gank-福利 "data/{type}/{month}/{day}"
+     */
+    @GET(BaseApi.Url.URL_MATERIAL_BENEFITS)
+    io.reactivex.Observable<JSONObject> materialBenefits1(@Path("type") @GankType String type,
+                                                          @Path("number") int number,
+                                                          @Path("page") int page);
 }
