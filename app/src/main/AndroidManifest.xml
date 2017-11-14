@@ -46,8 +46,13 @@
         <activity
             android:name=".gank.MMActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".rx2test.Rx2TestActivity">
-        </activity>
+        <activity
+            android:name=".rx2test.Rx2TestActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".rx2test.Rx2Test2Activity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

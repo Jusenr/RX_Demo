@@ -18,6 +18,7 @@ import com.jusenr.eg.demo.retrofit.RxRetrofitComposer;
 import com.jusenr.eg.demo.retrofit.model.Model1;
 import com.jusenr.eg.demo.retrofit.subscriber.ApiSubscriber1;
 import com.jusenr.eg.demo.retrofit.subscriber.ApiSubscriber2;
+import com.jusenr.eg.demo.rx2test.Rx2Test2Activity;
 import com.jusenr.eg.demo.rx2test.Rx2TestActivity;
 import com.jusenr.toolslibrary.utils.StringUtils;
 import com.jusenr.toolslibrary.utils.ToastUtils;
@@ -53,7 +54,6 @@ public class MainActivity extends BaseActivity {
     protected void onViewCreated(@Nullable Bundle savedInstanceState) {
         NativeLib nativeLib = new NativeLib();
         mTvText.setText(nativeLib.stringFromJNI());
-        mEditText.setFocusable(false);
 //        getDataTest();
     }
 
@@ -127,6 +127,7 @@ public class MainActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_text:
+                startActivity(new Intent(this, Rx2Test2Activity.class));
                 break;
             case R.id.btn_gank:
                 startActivity(new Intent(this, MMActivity.class));
@@ -135,6 +136,10 @@ public class MainActivity extends BaseActivity {
                 startActivity(new Intent(this, Rx2TestActivity.class));
                 break;
             case R.id.button:
+//                boolean focusable = mEditText.isFocusable();
+//                Log.i("MainActivity", "onViewClicked: " + focusable);
+//                mEditText.setFocusable(!focusable);
+//                mEditText.requestFocus();
                 String password = mEditText.getText().toString().trim();
                 mTextView.setText(password);
                 String regex = "^[\\da-zA-Z~!@#$%^&*_+?><.]{6,18}$";
