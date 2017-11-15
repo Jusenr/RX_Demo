@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jusenr.eg.demo.base.BaseActivity;
+import com.jusenr.eg.demo.dagger2Test.Dagger2TestActivity;
 import com.jusenr.eg.demo.gank.MMActivity;
 import com.jusenr.eg.demo.model.UserModel;
 import com.jusenr.eg.demo.retrofit.RetrofitManager;
@@ -149,7 +150,7 @@ public class MainActivity extends BaseActivity {
                 ToastUtils.show(this, Boolean.toString(b));
                 break;
             case R.id.button7:
-                setTheme(R.style.BlueTheme);
+                startActivity(new Intent(this, Dagger2TestActivity.class));
                 break;
         }
     }

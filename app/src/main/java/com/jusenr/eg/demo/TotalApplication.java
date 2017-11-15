@@ -6,9 +6,13 @@ import android.support.multidex.MultiDex;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.jusenr.eg.demo.base.ActivityManager;
+import com.jusenr.eg.demo.dagger2Test.component.BaseComponent;
+import com.jusenr.eg.demo.dagger2Test.component.DaggerBaseComponent;
+import com.jusenr.eg.demo.dagger2Test.module.BaseModule;
 import com.jusenr.eg.demo.okhttp.MyOkHttpClient;
 import com.jusenr.eg.demo.retrofit.api.BaseApi;
 import com.jusenr.eg.demo.widgets.fresco.ImagePipelineFactory;
+import com.jusenr.toolslibrary.AndroidTools;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -23,17 +27,24 @@ import com.umeng.analytics.MobclickAgent;
 public class TotalApplication extends Application {
 
     private static Context mContext;
+    private BaseComponent baseComponent;
     protected ActivityManager mActivityManager;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
+
         MultiDex.install(getApplicationContext());
+
+        baseComponent = DaggerBaseComponent.builder()
+                .baseModule(new BaseModule())
+                .build();
+
         BaseApi.init();
 
         //AndroidTools initialization
-//        AndroidTools.init(getApplicationContext(), getLogTag());
+        AndroidTools.init(getApplicationContext(), getLogTag());
 
         //OkHttpClient initialization
         MyOkHttpClient.init(getApplicationContext());
@@ -58,6 +69,10 @@ public class TotalApplication extends Application {
 
     public static Context getInstance() {
         return mContext;
+    }
+
+    public BaseComponent getBaseComponent() {
+        return baseComponent;
     }
 
     public ActivityManager getActivityManager() {

@@ -52,7 +52,10 @@
         <activity
             android:name=".rx2test.Rx2Test2Activity"
             android:screenOrientation="portrait"/>
-
+        <activity android:name=".dagger2Test.Dagger2TestActivity">
+        </activity>
+        <activity android:name=".dagger2Test.SecondActivity">
+        </activity>
     </application>
 
 </manifest>
