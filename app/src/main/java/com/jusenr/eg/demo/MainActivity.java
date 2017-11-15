@@ -44,6 +44,8 @@ public class MainActivity extends BaseActivity {
     TextView mTextView;
     @BindView(R.id.button)
     Button mButton;
+    @BindView(R.id.button7)
+    Button mButton7;
 
     @Override
     protected int getLayoutId() {
@@ -123,7 +125,7 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_text, R.id.btn_gank, R.id.button2, R.id.button})
+    @OnClick({R.id.tv_text, R.id.btn_gank, R.id.button2, R.id.button, R.id.button7})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_text:
@@ -145,6 +147,9 @@ public class MainActivity extends BaseActivity {
                 String regex = "^[\\da-zA-Z~!@#$%^&*_+?><.]{6,18}$";
                 boolean b = StringUtils.checkRegex(password, regex);
                 ToastUtils.show(this, Boolean.toString(b));
+                break;
+            case R.id.button7:
+                setTheme(R.style.BlueTheme);
                 break;
         }
     }

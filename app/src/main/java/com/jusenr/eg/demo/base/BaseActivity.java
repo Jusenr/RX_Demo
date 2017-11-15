@@ -1,16 +1,21 @@
 package com.jusenr.eg.demo.base;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.jusenr.eg.demo.R;
 import com.jusenr.eg.demo.TotalApplication;
 import com.jusenr.eg.demo.base.loading.LoadView;
 import com.jusenr.eg.demo.base.loading.LoadingView;
+import com.jusenr.eg.demo.theme.Theme;
+import com.jusenr.eg.demo.utils.PreUtils;
 import com.jusenr.toolslibrary.utils.EventBusUtils;
 import com.jusenr.toolslibrary.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -47,6 +52,10 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        onPreCreate();
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            setTranslucentStatus(true);
+//        }
         setContentView(getLayoutId());
 
         ActionBar actionBar = getSupportActionBar();
@@ -77,6 +86,72 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
     protected abstract int getLayoutId();
 
     protected abstract void onViewCreated(@Nullable Bundle savedInstanceState);
+
+    private void onPreCreate() {
+        PreUtils.setCurrentTheme(this, Theme.Blue);
+        Theme theme = PreUtils.getCurrentTheme(this);
+        switch (theme) {
+            case Blue:
+                setTheme(R.style.BlueTheme);
+                break;
+//            case Red:
+//                setTheme(R.style.RedTheme);
+//                break;
+//            case Brown:
+//                setTheme(R.style.BrownTheme);
+//                break;
+//            case Green:
+//                setTheme(R.style.GreenTheme);
+//                break;
+//            case Purple:
+//                setTheme(R.style.PurpleTheme);
+//                break;
+//            case Teal:
+//                setTheme(R.style.TealTheme);
+//                break;
+//            case Pink:
+//                setTheme(R.style.PinkTheme);
+//                break;
+//            case DeepPurple:
+//                setTheme(R.style.DeepPurpleTheme);
+//                break;
+//            case Orange:
+//                setTheme(R.style.OrangeTheme);
+//                break;
+//            case Indigo:
+//                setTheme(R.style.IndigoTheme);
+//                break;
+//            case LightGreen:
+//                setTheme(R.style.LightGreenTheme);
+//                break;
+//            case Lime:
+//                setTheme(R.style.LimeTheme);
+//                break;
+//            case DeepOrange:
+//                setTheme(R.style.DeepOrangeTheme);
+//                break;
+//            case Cyan:
+//                setTheme(R.style.CyanTheme);
+//                break;
+//            case BlueGrey:
+//                setTheme(R.style.BlueGreyTheme);
+//                break;
+        }
+
+    }
+
+    @TargetApi(19)
+    private void setTranslucentStatus(boolean on) {
+        Window win = getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
+    }
 
     @Override
     protected void onResume() {
