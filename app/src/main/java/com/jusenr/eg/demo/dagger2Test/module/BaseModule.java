@@ -1,6 +1,8 @@
 package com.jusenr.eg.demo.dagger2Test.module;
 
 import com.jusenr.eg.demo.dagger2Test.model.ClothHandler;
+import com.jusenr.eg.demo.retrofit.RetrofitManager;
+import com.jusenr.eg.demo.retrofit.api.GankApi;
 
 import javax.inject.Singleton;
 
@@ -23,5 +25,11 @@ public class BaseModule {
     @Provides
     public ClothHandler getClothHandler() {
         return new ClothHandler();
+    }
+
+    @Singleton //单例
+    @Provides
+    public GankApi getGankApi() {
+        return RetrofitManager.getGankApi();
     }
 }

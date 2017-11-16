@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.jusenr.eg.demo.R;
 import com.jusenr.eg.demo.TotalApplication;
 import com.jusenr.eg.demo.base.BaseActivity;
@@ -16,6 +18,14 @@ import com.jusenr.eg.demo.dagger2Test.model.ClothModel;
 import com.jusenr.eg.demo.dagger2Test.model.ClothesModel;
 import com.jusenr.eg.demo.dagger2Test.model.ShoeModel;
 import com.jusenr.eg.demo.dagger2Test.module.MainModule;
+import com.jusenr.eg.demo.model.MaterialBenefitsModel;
+import com.jusenr.eg.demo.retrofit.RxRetrofitComposer;
+import com.jusenr.eg.demo.retrofit.api.GankApi;
+import com.jusenr.eg.demo.retrofit.subscriber.Subscriber0;
+import com.jusenr.toolslibrary.log.logger.Logger;
+import com.jusenr.toolslibrary.utils.ToastUtils;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -57,6 +67,8 @@ public class Dagger2TestActivity extends BaseActivity {
     ClothesModel mClothesModel;
     @Inject
     ClothHandler clothHandler;
+    @Inject
+    GankApi mGankApi;
 
 
     @Override
@@ -82,6 +94,7 @@ public class Dagger2TestActivity extends BaseActivity {
         mTextView7.setText("redCloth=clothes中的cloth吗?:" + (mClothModel == mClothesModel.getModel()));
         mTextView8.setText("红布料加工后变成了" + clothHandler.handle(mClothModel) + "\nclothHandler地址:" + clothHandler);
 
+
     }
 
     @OnClick({R.id.textView2, R.id.button8, R.id.button9})
@@ -93,7 +106,31 @@ public class Dagger2TestActivity extends BaseActivity {
                 startActivity(new Intent(this, SecondActivity.class));
                 break;
             case R.id.button9:
+                initData();
                 break;
         }
+    }
+
+    public void initData() {
+        mGankApi.materialBenefits(GankApi.TYPE_MATERIALBENEFITS, 10, 1)
+                .compose(RxRetrofitComposer.<JSONObject>applySchedulers())
+                .subscribe(new Subscriber0<JSONObject>() {
+                    @Override
+                    public void onNext(String msg, JSONObject object) {
+                        MaterialBenefitsModel model = JSON.toJavaObject(object, MaterialBenefitsModel.class);
+                        if (model != null) {
+                            List<MaterialBenefitsModel.ResultsBean> results = model.getResults();
+                            if (results != null) {
+                                Logger.d(results.toString());
+                                ToastUtils.show(mActivity, results.size());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(int code, String msg) {
+                        ToastUtils.show(mActivity, msg);
+                    }
+                });
     }
 }

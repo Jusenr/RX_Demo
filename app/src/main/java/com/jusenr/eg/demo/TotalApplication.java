@@ -55,7 +55,7 @@ public class TotalApplication extends Application {
                         , MyOkHttpClient.provideOkHttpClient()
                         , getCacheDir().getAbsolutePath()));
 
-        //UMeng初始化
+        //UMeng initialization
         MobclickAgent.setDebugMode(BuildConfig.IS_TEST);
         MobclickAgent.setCatchUncaughtExceptions(true);
         MobclickAgent.openActivityDurationTrack(false);
