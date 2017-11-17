@@ -22,7 +22,7 @@ android {
             }
         }
         flavorDimensions "versionCode"
-        project.archivesBaseName = "rxdemo-$versionName"
+        project.archivesBaseName = "rxdemo-v$versionName"
     }
     signingConfigs {
         release {

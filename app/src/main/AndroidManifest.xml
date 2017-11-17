@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="com.jusenr.eg.demo">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -13,9 +14,10 @@
         android:name=".TotalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="@string/cur_app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:label">
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="${UMENG_APPKEY_VALUE}"/>
@@ -25,7 +27,7 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
+            android:label="@string/cur_app_name"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -52,10 +54,12 @@
         <activity
             android:name=".rx2test.Rx2Test2Activity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".dagger2Test.Dagger2TestActivity">
-        </activity>
-        <activity android:name=".dagger2Test.SecondActivity">
-        </activity>
+        <activity
+            android:name=".dagger2Test.Dagger2TestActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".dagger2Test.SecondActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

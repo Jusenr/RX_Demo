@@ -122,7 +122,7 @@ public class Dagger2TestActivity extends BaseActivity {
                             List<MaterialBenefitsModel.ResultsBean> results = model.getResults();
                             if (results != null) {
                                 Logger.d(results.toString());
-                                ToastUtils.show(mActivity, results.size());
+                                ToastUtils.show(mActivity, Integer.toString(results.size()));
                             }
                         }
                     }
