@@ -3,6 +3,7 @@ package com.jusenr.eg.demo.dagger2Test.component;
 import com.jusenr.eg.demo.dagger2Test.model.ClothHandler;
 import com.jusenr.eg.demo.dagger2Test.module.BaseModule;
 import com.jusenr.eg.demo.retrofit.api.GankApi;
+import com.jusenr.eg.demo.retrofit.api.PassportApi;
 
 import javax.inject.Singleton;
 
@@ -20,7 +21,10 @@ import dagger.Component;
 @Singleton
 @Component(modules = BaseModule.class)
 public interface BaseComponent {
+
     ClothHandler getClothHandler();
+
+    PassportApi getPassportApi();
 
     GankApi getGankApi();
 }
