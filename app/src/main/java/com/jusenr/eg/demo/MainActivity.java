@@ -13,6 +13,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.jusenr.eg.demo.base.BaseActivity;
 import com.jusenr.eg.demo.dagger2Test.Dagger2TestActivity;
 import com.jusenr.eg.demo.gank.MMActivity;
+import com.jusenr.eg.demo.jsouptest.HtmlActivity;
 import com.jusenr.eg.demo.model.UserModel;
 import com.jusenr.eg.demo.retrofit.RetrofitManager;
 import com.jusenr.eg.demo.retrofit.RxRetrofitComposer;
@@ -47,6 +48,8 @@ public class MainActivity extends BaseActivity {
     Button mButton;
     @BindView(R.id.button7)
     Button mButton7;
+    @BindView(R.id.button12)
+    Button mButton12;
 
     @Override
     protected int getLayoutId() {
@@ -126,7 +129,7 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_text, R.id.btn_gank, R.id.button2, R.id.button, R.id.button7})
+    @OnClick({R.id.tv_text, R.id.btn_gank, R.id.button2, R.id.button, R.id.button7, R.id.button12})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_text:
@@ -151,6 +154,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.button7:
                 startActivity(new Intent(this, Dagger2TestActivity.class));
+                break;
+            case R.id.button12:
+                startActivity(new Intent(this, HtmlActivity.class));
                 break;
         }
     }

@@ -60,6 +60,8 @@
         <activity
             android:name=".dagger2Test.SecondActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".jsouptest.HtmlActivity">
+        </activity>
     </application>
 
 </manifest>
