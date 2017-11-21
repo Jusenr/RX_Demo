@@ -95,7 +95,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
     @Override
     public void setContentView(View view) {
         super.setContentView(view);
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary));
+        setStatusBar();
     }
 
     @Nullable
@@ -107,6 +107,10 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         return actionBar;
+    }
+
+    protected void setStatusBar() {
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary));
     }
 
     public Toolbar getToolbar() {

@@ -3,13 +3,16 @@ package com.jusenr.eg.demo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jaeger.library.StatusBarUtil;
 import com.jusenr.eg.demo.base.BaseActivity;
 import com.jusenr.eg.demo.dagger2Test.Dagger2TestActivity;
 import com.jusenr.eg.demo.gank.MMActivity;
@@ -36,6 +39,8 @@ import rx.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
 
+    @BindView(R.id.cl_main)
+    ConstraintLayout mCLMain;
     @BindView(R.id.tv_text)
     TextView mTvText;
     @BindView(R.id.btn_gank)
@@ -50,6 +55,21 @@ public class MainActivity extends BaseActivity {
     Button mButton7;
     @BindView(R.id.button12)
     Button mButton12;
+    @BindView(R.id.button14)
+    Button mButton14;
+    @BindView(R.id.tv_status_alpha)
+    TextView mTvStatusAlpha;
+    @BindView(R.id.sb_change_alpha)
+    SeekBar mSbChangeAlpha;
+
+    private boolean isBgChanged;
+    private boolean isTransparent;
+    private int mAlpha;
+
+    @Override
+    protected boolean showActionBar() {
+        return false;
+    }
 
     @Override
     protected int getLayoutId() {
@@ -61,6 +81,22 @@ public class MainActivity extends BaseActivity {
         NativeLib nativeLib = new NativeLib();
         mTvText.setText(nativeLib.stringFromJNI());
 //        getDataTest();
+
+        if (!isTransparent) {
+            mSbChangeAlpha.setVisibility(View.VISIBLE);
+            setSeekBar();
+        } else {
+            mSbChangeAlpha.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void setStatusBar() {
+        if (isTransparent) {
+            StatusBarUtil.setTransparent(this);
+        } else {
+            StatusBarUtil.setTranslucent(this, StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
+        }
     }
 
     private void getDataTest() {
@@ -129,7 +165,7 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_text, R.id.btn_gank, R.id.button2, R.id.button, R.id.button7, R.id.button12})
+    @OnClick({R.id.tv_text, R.id.btn_gank, R.id.button2, R.id.button, R.id.button7, R.id.button12, R.id.button14})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_text:
@@ -158,6 +194,14 @@ public class MainActivity extends BaseActivity {
             case R.id.button12:
                 startActivity(new Intent(this, HtmlActivity.class));
                 break;
+            case R.id.button14:
+                isBgChanged = !isBgChanged;
+                if (isBgChanged) {
+                    mCLMain.setBackgroundDrawable(getResources().getDrawable(R.mipmap.photo_001));
+                } else {
+                    mCLMain.setBackgroundDrawable(getResources().getDrawable(R.mipmap.photo_002));
+                }
+                break;
         }
     }
 
@@ -167,5 +211,28 @@ public class MainActivity extends BaseActivity {
             return exit(2000);
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void setSeekBar() {
+        mSbChangeAlpha.setMax(255);
+        mSbChangeAlpha.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mAlpha = progress;
+                StatusBarUtil.setTranslucent(mActivity, mAlpha);
+                mTvStatusAlpha.setText(String.valueOf(mAlpha));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        mSbChangeAlpha.setProgress(StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
     }
 }
