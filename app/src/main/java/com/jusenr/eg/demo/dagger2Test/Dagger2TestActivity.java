@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.jaeger.library.StatusBarUtil;
 import com.jusenr.eg.demo.R;
 import com.jusenr.eg.demo.TotalApplication;
 import com.jusenr.eg.demo.base.BaseActivity;
@@ -26,6 +28,7 @@ import com.jusenr.toolslibrary.log.logger.Logger;
 import com.jusenr.toolslibrary.utils.ToastUtils;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -54,7 +57,12 @@ public class Dagger2TestActivity extends BaseActivity {
     TextView mTextView7;
     @BindView(R.id.textView8)
     TextView mTextView8;
-
+    @BindView(R.id.button13)
+    Button mButton13;
+    @BindView(R.id.tv_status_alpha)
+    TextView mTvStatusAlpha;
+    @BindView(R.id.sb_change_alpha)
+    SeekBar mSbChangeAlpha;
 
     @Inject
     ClothModel mClothModel;
@@ -70,6 +78,8 @@ public class Dagger2TestActivity extends BaseActivity {
     @Inject
     GankApi mGankApi;
 
+    private int mColor;
+    private int mAlpha;
 
     @Override
     protected int getLayoutId() {
@@ -94,10 +104,31 @@ public class Dagger2TestActivity extends BaseActivity {
         mTextView7.setText("redCloth=clothes中的cloth吗?:" + (mClothModel == mClothesModel.getModel()));
         mTextView8.setText("红布料加工后变成了" + clothHandler.handle(mClothModel) + "\nclothHandler地址:" + clothHandler);
 
+        mColor = getResources().getColor(R.color.colorPrimary);
+        mAlpha = StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA;
+        mSbChangeAlpha.setMax(255);
+        mSbChangeAlpha.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mAlpha = progress;
+                StatusBarUtil.setColor(mActivity, mColor, mAlpha);
+                mTvStatusAlpha.setText(String.valueOf(mAlpha));
+            }
 
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        mSbChangeAlpha.setProgress(StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
     }
 
-    @OnClick({R.id.textView2, R.id.button8, R.id.button9})
+    @OnClick({R.id.textView2, R.id.button8, R.id.button9, R.id.button13})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.textView2:
@@ -107,6 +138,13 @@ public class Dagger2TestActivity extends BaseActivity {
                 break;
             case R.id.button9:
                 initData();
+                break;
+            case R.id.button13:
+                // 改变颜色
+                Random random = new Random();
+                mColor = 0xff000000 | random.nextInt(0xffffff);
+                if (getToolbar() != null) getToolbar().setBackgroundColor(mColor);
+                StatusBarUtil.setColor(this, mColor, mAlpha);
                 break;
         }
     }

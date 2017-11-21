@@ -15,6 +15,7 @@ import android.widget.EditText;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.jaeger.library.StatusBarUtil;
 import com.jusenr.eg.demo.R;
 import com.jusenr.eg.demo.base.BaseActivity;
 import com.jusenr.eg.demo.gank.adapter.MMListAdapter;
@@ -125,6 +126,11 @@ public class MMActivity extends BaseActivity {
 
     private void initViews() {
         setTitle("Gank");
+
+        int color = getResources().getColor(R.color.color_a);
+        StatusBarUtil.setColor(this, color, 0);
+        if (getToolbar() != null) getToolbar().setBackgroundColor(color);
+
         mAdapter = new MMListAdapter(null);
         mAdapter.setOnItemClickListener(mItemtClickListener);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);

@@ -16,7 +16,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/cur_app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/AppBaseTheme"
         tools:replace="android:label">
         <meta-data
             android:name="UMENG_APPKEY"
@@ -60,8 +60,10 @@
         <activity
             android:name=".dagger2Test.SecondActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".jsouptest.HtmlActivity">
-        </activity>
+        <activity
+            android:name=".jsouptest.HtmlActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

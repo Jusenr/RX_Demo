@@ -6,10 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
+import com.jaeger.library.StatusBarUtil;
 import com.jusenr.eg.demo.R;
 import com.jusenr.eg.demo.TotalApplication;
 import com.jusenr.eg.demo.base.loading.LoadView;
@@ -45,8 +49,10 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
     protected CompositeDisposable disposable;
 
     protected boolean isResume;
+    protected boolean isShowActionBar = showActionBar();
     protected LoadingView mLoadingView;
     private ActivityManager mActivityManager;
+    private Toolbar mToolbar;
 
 
     @Override
@@ -56,12 +62,19 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //            setTranslucentStatus(true);
 //        }
-        setContentView(getLayoutId());
 
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        if (isShowActionBar) {
+            View view_main = View.inflate(this, getLayoutId(), null);
+            View view_root = View.inflate(this, R.layout.layout_root_view, null);
+            LinearLayout rootView = (LinearLayout) view_root.findViewById(R.id.ll_root_view);
+            mToolbar = (Toolbar) view_root.findViewById(R.id.toolbar);
+            rootView.addView(view_main, 1);
+            setContentView(view_root);
+            // 设置toolbar
+            setSupportActionBar(mToolbar);
+            getSupportActionBar();
+        } else {
+            setContentView(getLayoutId());
         }
 
         mActivity = this;
@@ -79,7 +92,32 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
         onViewCreated(savedInstanceState);
     }
 
-    public String getLoadingMessage() {
+    @Override
+    public void setContentView(View view) {
+        super.setContentView(view);
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary));
+    }
+
+    @Nullable
+    @Override
+    public ActionBar getSupportActionBar() {
+        ActionBar actionBar = super.getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        return actionBar;
+    }
+
+    public Toolbar getToolbar() {
+        return mToolbar;
+    }
+
+    protected boolean showActionBar() {
+        return true;
+    }
+
+    protected String getLoadingMessage() {
         return null;
     }
 

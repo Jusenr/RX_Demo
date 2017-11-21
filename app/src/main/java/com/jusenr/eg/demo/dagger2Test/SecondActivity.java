@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.jusenr.eg.demo.R;
 import com.jusenr.eg.demo.TotalApplication;
 import com.jusenr.eg.demo.base.BaseActivity;
@@ -64,6 +65,8 @@ public class SecondActivity extends BaseActivity {
         mTextView12.setText("");
         mTextView13.setText("");
         mTextView14.setText("");
+
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary), 0);
     }
 
     @OnClick({R.id.button10, R.id.button11})
