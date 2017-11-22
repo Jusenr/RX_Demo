@@ -4,6 +4,7 @@ package com.jusenr.eg.demo.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.jusenr.eg.demo.R;
 import com.jusenr.eg.demo.theme.Theme;
 
 
@@ -99,5 +100,13 @@ public class PreUtils {
 
     public static void setCurrentTheme(Context context, Theme currentTheme) {
         PreUtils.putString(context, "app_theme", currentTheme.name());
+    }
+
+    public static int getCurrentThemeColor(Context context) {
+        return PreUtils.getInt(context, "app_theme_color", R.color.colorPrimary);
+    }
+
+    public static void setCurrentThemeColor(Context context, int currentThemeColor) {
+        PreUtils.putInt(context, "app_theme_color", currentThemeColor);
     }
 }

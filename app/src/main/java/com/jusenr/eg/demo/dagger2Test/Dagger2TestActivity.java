@@ -104,7 +104,7 @@ public class Dagger2TestActivity extends BaseActivity {
         mTextView7.setText("redCloth=clothes中的cloth吗?:" + (mClothModel == mClothesModel.getModel()));
         mTextView8.setText("红布料加工后变成了" + clothHandler.handle(mClothModel) + "\nclothHandler地址:" + clothHandler);
 
-        mColor = getResources().getColor(R.color.colorPrimary);
+        mColor = getCurrentThemeColor();
         mAlpha = StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA;
         mSbChangeAlpha.setMax(255);
         mSbChangeAlpha.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

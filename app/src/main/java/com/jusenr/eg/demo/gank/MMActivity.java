@@ -126,8 +126,7 @@ public class MMActivity extends BaseActivity {
 
     private void initViews() {
         setTitle("Gank");
-
-        int color = getResources().getColor(R.color.color_a);
+        int color = getCurrentThemeColor();
         StatusBarUtil.setColor(this, color, 0);
         if (getToolbar() != null) getToolbar().setBackgroundColor(color);
 

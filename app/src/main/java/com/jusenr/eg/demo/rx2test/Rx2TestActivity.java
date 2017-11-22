@@ -50,6 +50,8 @@ public class Rx2TestActivity extends BaseActivity {
 
     @Override
     protected void onViewCreated(@Nullable Bundle savedInstanceState) {
+        setTitle("RX2Test");
+        setStatusBar();
 
         initViews();
         initDatas(mPage);
@@ -188,7 +190,6 @@ public class Rx2TestActivity extends BaseActivity {
     }
 
     private void initViews() {
-        setTitle("RX2Test");
         mAdapter = new MMListAdapter(null);
         mAdapter.setOnItemClickListener(mItemtClickListener);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);

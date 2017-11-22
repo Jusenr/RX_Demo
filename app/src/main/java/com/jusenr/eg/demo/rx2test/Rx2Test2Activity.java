@@ -49,6 +49,7 @@ public class Rx2Test2Activity extends BaseActivity {
     protected void onViewCreated(@Nullable Bundle savedInstanceState) {
 
         setTitle("Flowable");
+        setStatusBar();
     }
 
     private void flowableTest() {

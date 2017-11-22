@@ -66,7 +66,7 @@ public class SecondActivity extends BaseActivity {
         mTextView13.setText("");
         mTextView14.setText("");
 
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary), 0);
+        StatusBarUtil.setColor(this, getCurrentThemeColor(), 0);
     }
 
     @OnClick({R.id.button10, R.id.button11})

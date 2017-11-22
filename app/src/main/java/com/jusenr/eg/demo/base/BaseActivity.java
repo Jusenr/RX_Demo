@@ -2,6 +2,7 @@ package com.jusenr.eg.demo.base;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -58,10 +59,10 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        onPreCreate();
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            setTranslucentStatus(true);
-//        }
+        onPreCreate();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            setTranslucentStatus(true);
+        }
 
         if (isShowActionBar) {
             View view_main = View.inflate(this, getLayoutId(), null);
@@ -110,11 +111,16 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
     }
 
     protected void setStatusBar() {
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary));
+        StatusBarUtil.setColor(this, getCurrentThemeColor());
+        if (mToolbar != null) mToolbar.setBackgroundColor(getCurrentThemeColor());
     }
 
-    public Toolbar getToolbar() {
+    protected Toolbar getToolbar() {
         return mToolbar;
+    }
+
+    protected int getCurrentThemeColor() {
+        return PreUtils.getCurrentThemeColor(this);
     }
 
     protected boolean showActionBar() {
@@ -129,57 +135,55 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
 
     protected abstract void onViewCreated(@Nullable Bundle savedInstanceState);
 
-    private void onPreCreate() {
-        PreUtils.setCurrentTheme(this, Theme.Blue);
+    protected void onPreCreate() {
         Theme theme = PreUtils.getCurrentTheme(this);
         switch (theme) {
             case Blue:
                 setTheme(R.style.BlueTheme);
                 break;
-//            case Red:
-//                setTheme(R.style.RedTheme);
-//                break;
-//            case Brown:
-//                setTheme(R.style.BrownTheme);
-//                break;
-//            case Green:
-//                setTheme(R.style.GreenTheme);
-//                break;
-//            case Purple:
-//                setTheme(R.style.PurpleTheme);
-//                break;
-//            case Teal:
-//                setTheme(R.style.TealTheme);
-//                break;
-//            case Pink:
-//                setTheme(R.style.PinkTheme);
-//                break;
-//            case DeepPurple:
-//                setTheme(R.style.DeepPurpleTheme);
-//                break;
-//            case Orange:
-//                setTheme(R.style.OrangeTheme);
-//                break;
-//            case Indigo:
-//                setTheme(R.style.IndigoTheme);
-//                break;
-//            case LightGreen:
-//                setTheme(R.style.LightGreenTheme);
-//                break;
-//            case Lime:
-//                setTheme(R.style.LimeTheme);
-//                break;
-//            case DeepOrange:
-//                setTheme(R.style.DeepOrangeTheme);
-//                break;
-//            case Cyan:
-//                setTheme(R.style.CyanTheme);
-//                break;
-//            case BlueGrey:
-//                setTheme(R.style.BlueGreyTheme);
-//                break;
+            case Red:
+                setTheme(R.style.RedTheme);
+                break;
+            case Brown:
+                setTheme(R.style.BrownTheme);
+                break;
+            case Green:
+                setTheme(R.style.GreenTheme);
+                break;
+            case Purple:
+                setTheme(R.style.PurpleTheme);
+                break;
+            case Teal:
+                setTheme(R.style.TealTheme);
+                break;
+            case Pink:
+                setTheme(R.style.PinkTheme);
+                break;
+            case DeepPurple:
+                setTheme(R.style.DeepPurpleTheme);
+                break;
+            case Orange:
+                setTheme(R.style.OrangeTheme);
+                break;
+            case Indigo:
+                setTheme(R.style.IndigoTheme);
+                break;
+            case LightGreen:
+                setTheme(R.style.LightGreenTheme);
+                break;
+            case Lime:
+                setTheme(R.style.LimeTheme);
+                break;
+            case DeepOrange:
+                setTheme(R.style.DeepOrangeTheme);
+                break;
+            case Cyan:
+                setTheme(R.style.CyanTheme);
+                break;
+            case BlueGrey:
+                setTheme(R.style.BlueGreyTheme);
+                break;
         }
-
     }
 
     @TargetApi(19)
