@@ -1,27 +1,19 @@
 package com.jusenr.eg.demo;
 
-import android.animation.Animator;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.alibaba.fastjson.JSONObject;
-import com.jaeger.library.StatusBarUtil;
 import com.jusenr.eg.demo.base.BaseActivity;
 import com.jusenr.eg.demo.dagger2Test.Dagger2TestActivity;
 import com.jusenr.eg.demo.gank.MMActivity;
@@ -35,13 +27,10 @@ import com.jusenr.eg.demo.retrofit.subscriber.ApiSubscriber2;
 import com.jusenr.eg.demo.rx2test.Rx2Test2Activity;
 import com.jusenr.eg.demo.rx2test.Rx2TestActivity;
 import com.jusenr.eg.demo.theme.ColorRelativeLayout;
-import com.jusenr.eg.demo.theme.ColorUiUtil;
-import com.jusenr.eg.demo.theme.Theme;
 import com.jusenr.eg.demo.utils.PreUtils;
-import com.jusenr.eg.demo.utils.ThemeUtils;
 import com.jusenr.eg.demo.widgets.ResideLayout;
+import com.jusenr.toolslibrary.utils.AppUtils;
 import com.jusenr.toolslibrary.utils.DensityUtils;
-import com.jusenr.toolslibrary.utils.EventBusUtils;
 import com.jusenr.toolslibrary.utils.StringUtils;
 import com.jusenr.toolslibrary.utils.ToastUtils;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
@@ -58,7 +47,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
-public class MainActivity extends BaseActivity implements ColorChooserDialog.ColorCallback {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.avatar)
     ImageView mAvatar;
@@ -105,15 +94,10 @@ public class MainActivity extends BaseActivity implements ColorChooserDialog.Col
     Button mButton12;
     @BindView(R.id.button14)
     Button mButton14;
-    @BindView(R.id.tv_status_alpha)
-    TextView mTvStatusAlpha;
-    @BindView(R.id.sb_change_alpha)
-    SeekBar mSbChangeAlpha;
+    @BindView(R.id.version)
+    TextView mVersion;
 
-    private boolean isBgChanged;
-    private boolean isTransparent = true;
-    private int mAlpha;
-    private ColorChooserDialog mColorChooserDialog;
+    private boolean isBgChanged = false;
 
     @Override
     protected boolean showActionBar() {
@@ -129,18 +113,12 @@ public class MainActivity extends BaseActivity implements ColorChooserDialog.Col
     protected void onViewCreated(@Nullable Bundle savedInstanceState) {
         NativeLib nativeLib = new NativeLib();
         mTvText.setText(nativeLib.stringFromJNI());
+        mVersion.setText("version：" + AppUtils.getVersionName(this));
         mEditText.setFocusable(false);
 //        getDataTest();
 
 //        int statusBarHeight = DensityUtils.getStatusBarHeight(this);
 //        Log.i("Activity", "onViewCreated: statusBarHeight=" + statusBarHeight);
-
-        if (!isTransparent) {
-            mSbChangeAlpha.setVisibility(View.VISIBLE);
-            setSeekBar();
-        } else {
-            mSbChangeAlpha.setVisibility(View.GONE);
-        }
 
         setIconDrawable(mAll, MaterialDesignIconic.Icon.gmi_view_comfy);
         setIconDrawable(mFuli, MaterialDesignIconic.Icon.gmi_mood);
@@ -159,122 +137,8 @@ public class MainActivity extends BaseActivity implements ColorChooserDialog.Col
     }
 
     @Override
-    protected void setStatusBar() {
-        if (isTransparent) {
-            StatusBarUtil.setTransparent(this);
-        } else {
-            StatusBarUtil.setTranslucent(this, StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
-        }
-    }
-
-    @Override
     protected boolean useEventBus() {
         return true;
-    }
-
-    @Override
-    public void onColorSelection(@NonNull ColorChooserDialog dialog, int selectedColor) {
-        if (selectedColor == ThemeUtils.getThemeColor(this, R.attr.colorPrimary))
-            return;
-        EventBusUtils.post(getLocalClassName(), getLocalClassName());
-        PreUtils.setCurrentThemeColor(this, selectedColor);
-
-        if (selectedColor == getResources().getColor(R.color.colorBluePrimary)) {
-            setTheme(R.style.BlueTheme);
-            PreUtils.setCurrentTheme(this, Theme.Blue);
-
-        } else if (selectedColor == getResources().getColor(R.color.colorRedPrimary)) {
-            setTheme(R.style.RedTheme);
-            PreUtils.setCurrentTheme(this, Theme.Red);
-
-        } else if (selectedColor == getResources().getColor(R.color.colorBrownPrimary)) {
-            setTheme(R.style.BrownTheme);
-            PreUtils.setCurrentTheme(this, Theme.Brown);
-
-        } else if (selectedColor == getResources().getColor(R.color.colorGreenPrimary)) {
-            setTheme(R.style.GreenTheme);
-            PreUtils.setCurrentTheme(this, Theme.Green);
-
-        } else if (selectedColor == getResources().getColor(R.color.colorPurplePrimary)) {
-            setTheme(R.style.PurpleTheme);
-            PreUtils.setCurrentTheme(this, Theme.Purple);
-
-        } else if (selectedColor == getResources().getColor(R.color.colorTealPrimary)) {
-            setTheme(R.style.TealTheme);
-            PreUtils.setCurrentTheme(this, Theme.Teal);
-
-        } else if (selectedColor == getResources().getColor(R.color.colorPinkPrimary)) {
-            setTheme(R.style.PinkTheme);
-            PreUtils.setCurrentTheme(this, Theme.Pink);
-
-        } else if (selectedColor == getResources().getColor(R.color.colorDeepPurplePrimary)) {
-            setTheme(R.style.DeepPurpleTheme);
-            PreUtils.setCurrentTheme(this, Theme.DeepPurple);
-
-        } else if (selectedColor == getResources().getColor(R.color.colorOrangePrimary)) {
-            setTheme(R.style.OrangeTheme);
-            PreUtils.setCurrentTheme(this, Theme.Orange);
-
-        } else if (selectedColor == getResources().getColor(R.color.colorIndigoPrimary)) {
-            setTheme(R.style.IndigoTheme);
-            PreUtils.setCurrentTheme(this, Theme.Indigo);
-
-        } else if (selectedColor == getResources().getColor(R.color.colorLightGreenPrimary)) {
-            setTheme(R.style.LightGreenTheme);
-            PreUtils.setCurrentTheme(this, Theme.LightGreen);
-
-        } else if (selectedColor == getResources().getColor(R.color.colorDeepOrangePrimary)) {
-            setTheme(R.style.DeepOrangeTheme);
-            PreUtils.setCurrentTheme(this, Theme.DeepOrange);
-
-        } else if (selectedColor == getResources().getColor(R.color.colorLimePrimary)) {
-            setTheme(R.style.LimeTheme);
-            PreUtils.setCurrentTheme(this, Theme.Lime);
-
-        } else if (selectedColor == getResources().getColor(R.color.colorBlueGreyPrimary)) {
-            setTheme(R.style.BlueGreyTheme);
-            PreUtils.setCurrentTheme(this, Theme.BlueGrey);
-
-        } else if (selectedColor == getResources().getColor(R.color.colorCyanPrimary)) {
-            setTheme(R.style.CyanTheme);
-            PreUtils.setCurrentTheme(this, Theme.Cyan);
-
-        }
-        final View rootView = getWindow().getDecorView();
-        rootView.setDrawingCacheEnabled(true);
-        rootView.buildDrawingCache(true);
-
-        final Bitmap localBitmap = Bitmap.createBitmap(rootView.getDrawingCache());
-        rootView.setDrawingCacheEnabled(false);
-        if (null != localBitmap && rootView instanceof ViewGroup) {
-            final View tmpView = new View(getApplicationContext());
-            tmpView.setBackgroundDrawable(new BitmapDrawable(getResources(), localBitmap));
-            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            ((ViewGroup) rootView).addView(tmpView, params);
-            tmpView.animate().alpha(0).setDuration(400).setListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    ColorUiUtil.changeTheme(rootView, getTheme());
-                    System.gc();
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    ((ViewGroup) rootView).removeView(tmpView);
-                    localBitmap.recycle();
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            }).start();
-        }
     }
 
     @OnClick({R.id.tv_text, R.id.btn_gank, R.id.button2, R.id.button, R.id.button7, R.id.button12, R.id.button14, R.id.theme})
@@ -315,16 +179,6 @@ public class MainActivity extends BaseActivity implements ColorChooserDialog.Col
                 }
                 break;
             case R.id.theme:
-                if (mColorChooserDialog == null) {
-                    mColorChooserDialog = new ColorChooserDialog.Builder(this, R.string.theme)
-                            .customColors(R.array.colors, null)
-                            .doneButton(R.string.done)
-                            .cancelButton(R.string.cancel)
-                            .allowUserColorInput(false)
-                            .allowUserColorInputAlpha(false)
-                            .build();
-
-                }
                 mColorChooserDialog.show(this);
                 break;
         }
@@ -345,29 +199,6 @@ public class MainActivity extends BaseActivity implements ColorChooserDialog.Col
         } else {
             super.onBackPressed();
         }
-    }
-
-    private void setSeekBar() {
-        mSbChangeAlpha.setMax(255);
-        mSbChangeAlpha.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mAlpha = progress;
-                StatusBarUtil.setTranslucent(mActivity, mAlpha);
-                mTvStatusAlpha.setText(String.valueOf(mAlpha));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-        mSbChangeAlpha.setProgress(StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
     }
 
     private void setIconDrawable(TextView view, IIcon icon) {

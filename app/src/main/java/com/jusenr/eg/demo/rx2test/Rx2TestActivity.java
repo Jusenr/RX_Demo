@@ -51,7 +51,6 @@ public class Rx2TestActivity extends BaseActivity {
     @Override
     protected void onViewCreated(@Nullable Bundle savedInstanceState) {
         setTitle("RX2Test");
-        setStatusBar();
 
         initViews();
         initDatas(mPage);

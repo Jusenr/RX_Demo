@@ -128,7 +128,6 @@ public class MMActivity extends BaseActivity {
         setTitle("Gank");
         int color = getCurrentThemeColor();
         StatusBarUtil.setColor(this, color, 0);
-        if (getToolbar() != null) getToolbar().setBackgroundColor(color);
 
         mAdapter = new MMListAdapter(null);
         mAdapter.setOnItemClickListener(mItemtClickListener);
