@@ -12,7 +12,6 @@
         android:id="@+id/brv_message_type_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         app:divider_color="@color/divider_color"
         app:row_divider="true"/>
 

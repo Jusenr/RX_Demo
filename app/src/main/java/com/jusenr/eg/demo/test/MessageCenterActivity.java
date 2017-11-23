@@ -62,6 +62,7 @@ public class MessageCenterActivity extends BaseActivity {
             if (item != null) {
                 Intent intent = new Intent(mActivity, MessageDetailActivity.class);
                 intent.putExtra("title", item.getTitle());
+                intent.putExtra("id", item.getId());
                 startActivity(intent);
             }
         }
