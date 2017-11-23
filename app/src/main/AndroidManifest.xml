@@ -63,6 +63,12 @@
         <activity
             android:name=".jsouptest.HtmlActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".test.MessageCenterActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".test.MessageDetailActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 

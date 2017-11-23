@@ -23,6 +23,7 @@
     </array>
 
     <!--basic color-->
+    <color name="colorE1E1E1">#E1E1E1</color>
     <color name="colorTextIcon">#ffffff</color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondText">#727272</color>
