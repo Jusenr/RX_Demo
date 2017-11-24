@@ -38,4 +38,16 @@
         <attr name="leftSwipe" format="boolean"/>
     </declare-styleable>
 
+    <!--RoundImageView-->
+    <declare-styleable name="RoundImageView">
+        <attr name="imageRadius" format="dimension"/>
+        <attr name="imagePosition" format="enum">
+            <enum name="all" value="0"/>
+            <enum name="left" value="1"/>
+            <enum name="top" value="2"/>
+            <enum name="right" value="3"/>
+            <enum name="bottom" value="4"/>
+        </attr>
+    </declare-styleable>
+
 </resources>

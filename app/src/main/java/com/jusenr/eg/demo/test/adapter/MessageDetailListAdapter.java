@@ -21,10 +21,11 @@ public class MessageDetailListAdapter extends BaseMultiItemQuickAdapter<Multiple
     public MessageDetailListAdapter(List<MultipleItem<MessageDetailModel.DataBean>> data) {
         super(data);
         addItemType(MultipleItem.TEXT, R.layout.layout_item_message_type_1);
-        addItemType(MultipleItem.IMG_TEXT, R.layout.layout_item_message_type_2);
-        addItemType(MultipleItem.IMG_TEXT_21, R.layout.layout_item_message_type_3);
-        addItemType(MultipleItem.TEXT_TIPS, R.layout.layout_item_message_type_3);
-        addItemType(MultipleItem.TEXT_TIPS_LINK, R.layout.layout_item_message_type_3);
+        addItemType(MultipleItem.IMG, R.layout.layout_item_message_type_2);
+        addItemType(MultipleItem.IMG_TEXT, R.layout.layout_item_message_type_3);
+        addItemType(MultipleItem.IMG_TEXT_21, R.layout.layout_item_message_type_4);
+        addItemType(MultipleItem.TEXT_TIPS, R.layout.layout_item_message_type_4);
+        addItemType(MultipleItem.TEXT_TIPS_LINK, R.layout.layout_item_message_type_4);
     }
 
     @Override
@@ -33,8 +34,13 @@ public class MessageDetailListAdapter extends BaseMultiItemQuickAdapter<Multiple
         if (content != null) {
             switch (helper.getItemViewType()) {
                 case MultipleItem.TEXT:
-                    helper.setText(R.id.tv_desc, "淘淘连续使用平板超过1小时了，为了孩子的健康，请及时设置定时休息。");
                     helper.setText(R.id.tv_time, "2017-11-23");
+                    helper.setText(R.id.tv_desc, "淘淘连续使用平板超过1小时了，为了孩子的健康，请及时设置定时休息。");
+                    break;
+                case MultipleItem.IMG:
+                    helper.setText(R.id.tv_time, "星期五");
+                    helper.setText(R.id.tv_title, "21天逻辑思维训练计划");
+                    helper.setImageResource(R.id.iv_pic, R.mipmap.photo_004);
                     break;
                 case MultipleItem.IMG_TEXT:
                     helper.setText(R.id.tv_time, "2017年11月23日 15：04");
@@ -43,7 +49,7 @@ public class MessageDetailListAdapter extends BaseMultiItemQuickAdapter<Multiple
                     helper.setText(R.id.tv_defeat, "89%");
                     break;
                 case MultipleItem.IMG_TEXT_21:
-                    helper.setVisible(R.id.tv_finish, false);
+//                    helper.setVisible(R.id.tv_finish, true);
                     helper.setText(R.id.tv_time, "20：04");
                     helper.setText(R.id.tv_title, content.getTitle());
                     helper.setText(R.id.tv_day_number, "6");

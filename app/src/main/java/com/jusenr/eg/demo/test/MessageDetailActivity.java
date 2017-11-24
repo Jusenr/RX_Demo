@@ -56,27 +56,22 @@ public class MessageDetailActivity extends BaseActivity {
             if (!ListUtils.isEmpty(beanList)) {
                 List<MultipleItem<MessageDetailModel.DataBean>> list = new ArrayList<>();
                 for (MessageDetailModel.DataBean dataBean : beanList) {
+                    MultipleItem multipleItem = null;
                     if (dataBean.getId() == 1) {
-                        MultipleItem multipleItem = new MultipleItem(MultipleItem.TEXT);
-                        multipleItem.setContent(dataBean);
-                        list.add(multipleItem);
+                        multipleItem = new MultipleItem(MultipleItem.TEXT, dataBean);
                     } else if (dataBean.getId() == 2) {
-                        MultipleItem multipleItem = new MultipleItem(MultipleItem.IMG_TEXT);
-                        multipleItem.setContent(dataBean);
-                        list.add(multipleItem);
+                        multipleItem = new MultipleItem(MultipleItem.IMG, dataBean);
                     } else if (dataBean.getId() == 3) {
-                        MultipleItem multipleItem = new MultipleItem(MultipleItem.IMG_TEXT_21);
-                        multipleItem.setContent(dataBean);
-                        list.add(multipleItem);
+                        multipleItem = new MultipleItem(MultipleItem.IMG_TEXT, dataBean);
                     } else if (dataBean.getId() == 4) {
-                        MultipleItem multipleItem = new MultipleItem(MultipleItem.TEXT_TIPS);
-                        multipleItem.setContent(dataBean);
-                        list.add(multipleItem);
+                        multipleItem = new MultipleItem(MultipleItem.IMG_TEXT_21, dataBean);
+                    } else if (dataBean.getId() == 5) {
+                        multipleItem = new MultipleItem(MultipleItem.TEXT_TIPS, dataBean);
                     } else {
-                        MultipleItem multipleItem = new MultipleItem(MultipleItem.TEXT_TIPS_LINK);
+                        multipleItem = new MultipleItem(MultipleItem.TEXT_TIPS_LINK);
                         multipleItem.setContent(dataBean);
-                        list.add(multipleItem);
                     }
+                    list.add(multipleItem);
                 }
                 mAdapter.setNewData(list);
             }
