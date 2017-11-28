@@ -69,6 +69,7 @@
         <activity
             android:name=".test.MessageDetailActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".test.TestActivity"/>
 
     </application>
 

@@ -78,6 +78,8 @@ public abstract class BaseActivity extends AppCompatActivity implements LoadView
             View view_root = View.inflate(this, R.layout.layout_root_view, null);
             LinearLayout rootView = (LinearLayout) view_root.findViewById(R.id.ll_root_view);
             mToolbar = (Toolbar) view_root.findViewById(R.id.toolbar);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            view_main.setLayoutParams(params);
             rootView.addView(view_main, 1);
             setContentView(view_root);
             // 设置toolbar

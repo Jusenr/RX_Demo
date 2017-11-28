@@ -57,41 +57,51 @@ public class RoundImageView extends android.support.v7.widget.AppCompatImageView
     protected void onDraw(Canvas canvas) {
         if (width > imageRadius && height > imageRadius) {
             Path path = new Path();
-            path.moveTo(imageRadius, 0);
             switch (imagePosition) {
-                case 0:
-                    //右上
+                case 0://all
+                    path.moveTo(imageRadius, 0);
                     path.lineTo(width - imageRadius, 0);
                     path.quadTo(width, 0, width, imageRadius);
-                    //右下
                     path.lineTo(width, height - imageRadius);
                     path.quadTo(width, height, width - imageRadius, height);
-                    //左下
                     path.lineTo(imageRadius, height);
                     path.quadTo(0, height, 0, height - imageRadius);
-                    //左上
                     path.lineTo(0, imageRadius);
                     path.quadTo(0, 0, imageRadius, 0);
                     break;
-                case 1:
-                    //右上
-                    path.lineTo(width - imageRadius, 0);
-                    path.quadTo(width, 0, width, imageRadius);
-                    //右下
-                    path.lineTo(width, height - imageRadius);
-                    path.quadTo(width, height, width - imageRadius, height);
-                    break;
-                case 2:
-                    //左下
+                case 1://left
+                    path.moveTo(imageRadius, 0);
+                    path.lineTo(width, 0);
+                    path.lineTo(width, height);
                     path.lineTo(imageRadius, height);
                     path.quadTo(0, height, 0, height - imageRadius);
-                    //左上
                     path.lineTo(0, imageRadius);
                     path.quadTo(0, 0, imageRadius, 0);
                     break;
-                case 3:
+                case 2://top
+                    path.moveTo(imageRadius, 0);
+                    path.lineTo(width - imageRadius, 0);
+                    path.quadTo(width, 0, width, imageRadius);
+                    path.lineTo(width, height);
+                    path.lineTo(0, height);
+                    path.lineTo(0, imageRadius);
+                    path.quadTo(0, 0, imageRadius, 0);
                     break;
-                case 4:
+                case 3://right
+                    path.lineTo(width - imageRadius, 0);
+                    path.quadTo(width, 0, width, imageRadius);
+                    path.lineTo(width, height - imageRadius);
+                    path.quadTo(width, height, width - imageRadius, height);
+                    path.lineTo(0, height);
+                    path.lineTo(0, 0);
+                    break;
+                case 4://bottom
+                    path.lineTo(width, 0);
+                    path.lineTo(width, height - imageRadius);
+                    path.quadTo(width, height, width - imageRadius, height);
+                    path.lineTo(imageRadius, height);
+                    path.quadTo(0, height, 0, height - imageRadius);
+                    path.lineTo(0, 0);
                     break;
             }
             canvas.clipPath(path);

@@ -21,6 +21,9 @@ android {
                 cppFlags ""
             }
         }
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "x86"
+        }
         flavorDimensions "versionCode"
         project.archivesBaseName = "rxdemo-v$versionName"
     }
@@ -71,6 +74,7 @@ android {
         abortOnError false
     }
     dexOptions {
+        maxProcessCount 6 // this is the default value
         javaMaxHeapSize "4g"
     }
     externalNativeBuild {
@@ -80,24 +84,24 @@ android {
     }
     //产品渠道配置
     productFlavors {
-        innerTest {
-            buildConfigField "boolean", "IS_TEST", "true"
-            buildConfigField "int", "HOST_NOW", "2"
-            versionName = "T" + rootProject.getVersionName()
-        }
-
-        dev {
-            buildConfigField "boolean", "IS_TEST", "true"
-            buildConfigField "int", "HOST_NOW", "3"
-            versionName = "D" + rootProject.getVersionName()
-        }
+//        innerTest {
+//            buildConfigField "boolean", "IS_TEST", "true"
+//            buildConfigField "int", "HOST_NOW", "2"
+//            versionName = "T" + rootProject.getVersionName()
+//        }
+//
+//        dev {
+//            buildConfigField "boolean", "IS_TEST", "true"
+//            buildConfigField "int", "HOST_NOW", "3"
+//            versionName = "D" + rootProject.getVersionName()
+//        }
 
         online {
             versionName = "V" + rootProject.getVersionName()
         }
 
-        xiaomi { versionName = "V" + defaultConfig.versionName }
-        huawei { versionName = "V" + defaultConfig.versionName }
+//        xiaomi { versionName = "V" + defaultConfig.versionName }
+//        huawei { versionName = "V" + defaultConfig.versionName }
 
         productFlavors.all { flavor ->
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
@@ -106,7 +110,7 @@ android {
 
 //    applicationVariants.all { variant ->
 //        variant.outputs.all {
-//            outputFileName = "1hu_${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+//            outputFileName = "rxdemo_v${defaultConfig.versionName}_${variant.productFlavors[0].name}_${variant.buildType.name}.apk"
 //        }
 //    }
 }

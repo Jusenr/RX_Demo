@@ -27,6 +27,7 @@ import com.jusenr.eg.demo.retrofit.subscriber.ApiSubscriber2;
 import com.jusenr.eg.demo.rx2test.Rx2Test2Activity;
 import com.jusenr.eg.demo.rx2test.Rx2TestActivity;
 import com.jusenr.eg.demo.test.MessageCenterActivity;
+import com.jusenr.eg.demo.test.TestActivity;
 import com.jusenr.eg.demo.theme.ColorRelativeLayout;
 import com.jusenr.eg.demo.utils.PreUtils;
 import com.jusenr.eg.demo.widgets.ResideLayout;
@@ -186,7 +187,7 @@ public class MainActivity extends BaseActivity {
                 startActivity(new Intent(this, MessageCenterActivity.class));
                 break;
             case R.id.fuli:
-
+                startActivity(new Intent(this, TestActivity.class));
                 break;
             case R.id.android:
 
