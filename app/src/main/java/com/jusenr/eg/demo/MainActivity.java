@@ -17,7 +17,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.jusenr.eg.demo.base.BaseActivity;
 import com.jusenr.eg.demo.dagger2Test.Dagger2TestActivity;
 import com.jusenr.eg.demo.gank.MMActivity;
-import com.jusenr.eg.demo.test.MessageCenterActivity;
 import com.jusenr.eg.demo.jsouptest.HtmlActivity;
 import com.jusenr.eg.demo.model.UserModel;
 import com.jusenr.eg.demo.retrofit.RetrofitManager;
@@ -27,6 +26,7 @@ import com.jusenr.eg.demo.retrofit.subscriber.ApiSubscriber1;
 import com.jusenr.eg.demo.retrofit.subscriber.ApiSubscriber2;
 import com.jusenr.eg.demo.rx2test.Rx2Test2Activity;
 import com.jusenr.eg.demo.rx2test.Rx2TestActivity;
+import com.jusenr.eg.demo.test.MessageCenterActivity;
 import com.jusenr.eg.demo.theme.ColorRelativeLayout;
 import com.jusenr.eg.demo.utils.PreUtils;
 import com.jusenr.eg.demo.widgets.ResideLayout;
@@ -45,7 +45,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
@@ -135,6 +134,10 @@ public class MainActivity extends BaseActivity {
             mResideLayout.openPane();
             PreUtils.putBoolean(this, "isFirst", false);
         }
+
+        mButton.setOnClickListener(v -> {
+
+        });
     }
 
     @Override
@@ -260,18 +263,8 @@ public class MainActivity extends BaseActivity {
         subscriptions.add(RetrofitManager.getPassportApi()
                 .getNickname(new HashMap<String, String>())
                 .compose(RxRetrofitComposer.<UserModel>applySchedulers())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showLoading();
-                    }
-                })
-                .doOnTerminate(new Action0() {
-                    @Override
-                    public void call() {
-                        dismissLoading();
-                    }
-                })
+                .doOnSubscribe(() -> showLoading())
+                .doOnTerminate(() -> dismissLoading())
                 .subscribe(new ApiSubscriber2<UserModel>() {
                     @Override
                     public void onNext(String msg, UserModel userModel) {

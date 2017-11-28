@@ -59,6 +59,13 @@ android {
             jni.srcDirs = ['src/main/cpp']
         }
     }
+    // Configure only for each module that uses Java 8
+    // language features (either in its source code or
+    // through dependencies).
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
@@ -96,6 +103,12 @@ android {
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
         }
     }
+
+//    applicationVariants.all { variant ->
+//        variant.outputs.all {
+//            outputFileName = "1hu_${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+//        }
+//    }
 }
 
 dependencies {
