@@ -2,8 +2,10 @@ package com.jusenr.eg.demo;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -39,8 +41,16 @@ import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.typeface.IIcon;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.PermissionNo;
+import com.yanzhenjie.permission.PermissionYes;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.engine.impl.PicassoEngine;
 
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -49,6 +59,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
+    public static final int REQUEST_CODE_CHOOSE = 100;
 
     @BindView(R.id.avatar)
     ImageView mAvatar;
@@ -99,6 +110,7 @@ public class MainActivity extends BaseActivity {
     TextView mVersion;
 
     private boolean isBgChanged = false;
+    boolean isPermissionsPass;
 
     @Override
     protected boolean showActionBar() {
@@ -112,6 +124,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onViewCreated(@Nullable Bundle savedInstanceState) {
+        applyPermissions();
+
         NativeLib nativeLib = new NativeLib();
         mTvText.setText(nativeLib.stringFromJNI());
         mVersion.setText("version：" + AppUtils.getVersionName(this));
@@ -146,7 +160,8 @@ public class MainActivity extends BaseActivity {
         return true;
     }
 
-    @OnClick({R.id.tv_text, R.id.btn_gank, R.id.button2, R.id.button, R.id.button7, R.id.button12, R.id.button14, R.id.all, R.id.fuli, R.id.android, R.id.theme})
+    @OnClick({R.id.tv_text, R.id.btn_gank, R.id.button2, R.id.button, R.id.button7, R.id.button12, R.id.button14,
+            R.id.all, R.id.fuli, R.id.android, R.id.video, R.id.resource, R.id.more, R.id.about, R.id.theme})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_text:
@@ -185,16 +200,48 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.all:
                 startActivity(new Intent(this, MessageCenterActivity.class));
+                mResideLayout.closePane();
                 break;
             case R.id.fuli:
                 startActivity(new Intent(this, TestActivity.class));
+                mResideLayout.closePane();
                 break;
             case R.id.android:
-
+                if (isPermissionsPass) {
+                    Matisse.from(this)
+                            .choose(MimeType.ofImage())
+                            .theme(R.style.Matisse_Dracula)
+                            .countable(false)
+                            .maxSelectable(9)
+                            .imageEngine(new PicassoEngine())
+                            .forResult(REQUEST_CODE_CHOOSE);
+                }
+                mResideLayout.closePane();
+                break;
+            case R.id.video:
+                mResideLayout.closePane();
+                break;
+            case R.id.resource:
+                mResideLayout.closePane();
+                break;
+            case R.id.more:
+                mResideLayout.closePane();
+                break;
+            case R.id.about:
+                mResideLayout.closePane();
                 break;
             case R.id.theme:
                 mColorChooserDialog.show(this);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+            List<Uri> mSelected = Matisse.obtainResult(data);
+            Log.i("Matisse", "mSelected: " + mSelected);
         }
     }
 
@@ -213,6 +260,48 @@ public class MainActivity extends BaseActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @PermissionYes(101)
+    public void permissionsSucceed(List<String> deniedList) {
+        isPermissionsPass = true;
+//        if (false) {
+//            Matisse.from(this)
+//                    .choose(MimeType.ofAll(), false)
+//                    .theme(R.style.Matisse_Zhihu)
+//                    .countable(true)
+//                    .capture(true)
+//                    .captureStrategy(new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider"))
+//                    .maxSelectable(9)
+//                    .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+//                    .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+//                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+//                    .thumbnailScale(0.85f)
+//                    .imageEngine(new GlideEngine())
+//                    .forResult(REQUEST_CODE_CHOOSE);
+//        } else {
+//        Matisse.from(this)
+//                .choose(MimeType.ofImage())
+//                .theme(R.style.Matisse_Dracula)
+//                .countable(false)
+//                .maxSelectable(9)
+//                .imageEngine(new PicassoEngine())
+//                .forResult(REQUEST_CODE_CHOOSE);
+//        }
+    }
+
+    @PermissionNo(101)
+    public void PermissionsFailed(List<String> deniedList) {
+        isPermissionsPass = false;
+        ToastUtils.show(this, getString(R.string.permission_request_denied));
+    }
+
+    private void applyPermissions() {
+        AndPermission.with(this)
+                .callback(this)
+                .permission(Permission.STORAGE)
+                .requestCode(101)
+                .start();
     }
 
     private void setIconDrawable(TextView view, IIcon icon) {
