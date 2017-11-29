@@ -1,4 +1,4 @@
-package com.jusenr.eg.demo.test;
+package com.jusenr.eg.demo.model;
 
 import android.content.Context;
 import android.graphics.Point;

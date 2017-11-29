@@ -1,6 +1,7 @@
 package com.jusenr.eg.demo;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.jusenr.eg.demo.base.BaseActivity;
 import com.jusenr.eg.demo.dagger2Test.Dagger2TestActivity;
 import com.jusenr.eg.demo.gank.MMActivity;
 import com.jusenr.eg.demo.jsouptest.HtmlActivity;
+import com.jusenr.eg.demo.model.GifSizeFilter;
 import com.jusenr.eg.demo.model.UserModel;
 import com.jusenr.eg.demo.retrofit.RetrofitManager;
 import com.jusenr.eg.demo.retrofit.RxRetrofitComposer;
@@ -47,7 +49,9 @@ import com.yanzhenjie.permission.PermissionNo;
 import com.yanzhenjie.permission.PermissionYes;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.PicassoEngine;
+import com.zhihu.matisse.engine.impl.GlideEngine;
+import com.zhihu.matisse.filter.Filter;
+import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.util.HashMap;
 import java.util.List;
@@ -208,13 +212,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.android:
                 if (isPermissionsPass) {
-                    Matisse.from(this)
-                            .choose(MimeType.ofImage())
-                            .theme(R.style.Matisse_Dracula)
-                            .countable(false)
-                            .maxSelectable(9)
-                            .imageEngine(new PicassoEngine())
-                            .forResult(REQUEST_CODE_CHOOSE);
+                    matisse();
                 }
                 mResideLayout.closePane();
                 break;
@@ -294,6 +292,22 @@ public class MainActivity extends BaseActivity {
     public void PermissionsFailed(List<String> deniedList) {
         isPermissionsPass = false;
         ToastUtils.show(this, getString(R.string.permission_request_denied));
+    }
+
+    private void matisse() {
+        Matisse.from(this)
+                .choose(MimeType.ofAll(), false)
+                .theme(R.style.Matisse_Zhihu)
+                .countable(true)
+                .capture(true)
+                .captureStrategy(new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider"))
+                .maxSelectable(9)
+                .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+                .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                .thumbnailScale(0.85f)
+                .imageEngine(new GlideEngine())
+                .forResult(REQUEST_CODE_CHOOSE);
     }
 
     private void applyPermissions() {
