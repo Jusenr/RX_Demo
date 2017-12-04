@@ -1,7 +1,6 @@
 package com.jusenr.eg.demo.gank;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -31,7 +30,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import rx.Subscription;
-import rx.functions.Action0;
 
 public class MMActivity extends BaseActivity {
 
@@ -57,12 +55,7 @@ public class MMActivity extends BaseActivity {
 
     @Override
     public void showLoading() {
-        mRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mRefreshLayout.setRefreshing(true);
-            }
-        });
+        mRefreshLayout.post(() -> mRefreshLayout.setRefreshing(true));
     }
 
     @Override
@@ -90,18 +83,8 @@ public class MMActivity extends BaseActivity {
         Subscription subscribe = RetrofitManager.getGankApi()
                 .materialBenefits(GankApi.TYPE_MATERIALBENEFITS, 10, page)
                 .compose(RxRetrofitComposer.<JSONObject>applySchedulers())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showLoading();
-                    }
-                })
-                .doOnTerminate(new Action0() {
-                    @Override
-                    public void call() {
-                        dismissLoading();
-                    }
-                })
+                .doOnSubscribe(() -> showLoading())
+                .doOnTerminate(() -> dismissLoading())
                 .subscribe(new Subscriber0<JSONObject>() {
                     @Override
                     public void onNext(String msg, JSONObject object) {
@@ -146,12 +129,9 @@ public class MMActivity extends BaseActivity {
         }
     };
 
-    private SwipeRefreshLayout.OnRefreshListener mRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
-        @Override
-        public void onRefresh() {
-            mPage++;
-            initDatas(mPage);
-        }
+    private SwipeRefreshLayout.OnRefreshListener mRefreshListener = () -> {
+        mPage++;
+        initDatas(mPage);
     };
 
     private void search() {
@@ -161,12 +141,9 @@ public class MMActivity extends BaseActivity {
                 .setTitle("Input page number")
                 .setIcon(android.R.drawable.ic_search_category_default)
                 .setView(editText)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String page = editText.getText().toString().trim();
-                        initDatas(TextUtils.isEmpty(page) ? 1 : Integer.parseInt(page));
-                    }
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    String page = editText.getText().toString().trim();
+                    initDatas(TextUtils.isEmpty(page) ? 1 : Integer.parseInt(page));
                 });
 
         b.create().show();
