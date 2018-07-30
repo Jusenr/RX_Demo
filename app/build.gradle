@@ -21,9 +21,6 @@ android {
                 cppFlags ""
             }
         }
-        ndk {
-            abiFilters "armeabi", "armeabi-v7a", "x86"
-        }
         flavorDimensions "versionCode"
         project.archivesBaseName = "rxdemo-v$versionName"
     }
